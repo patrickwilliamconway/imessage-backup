@@ -4,7 +4,7 @@ ROOT_DIR="/Users/patrickconway/imessage-backup"
 # Define base directory for exports
 BASE_EXPORT_DIR="$ROOT_DIR/backups/"
 LOG_FILE="$ROOT_DIR/log_file.log"
-S3_BUCKET="s3://pwc-imessage-backup"
+# S3_BUCKET="s3://your-s3-bucket-here"
 LAST_BACKUP_FILE="$ROOT_DIR/last_backup_date.txt"
 
 # Create log file directory if it doesn't exist
@@ -36,18 +36,20 @@ perform_backup() {
     return 1
   fi
 
-  log "Syncing to S3: aws s3 --profile imessage-backup sync $ROOT_DIR $S3_BUCKET" 
-  if aws s3 --profile imessage-backup sync "$ROOT_DIR" "$S3_BUCKET/" ; then
-    log "Successfully synced messages to $S3_BUCKET" 
-  else
-    log "Error: Failed to sync messages to S3 bucket" 
-    return 1
-  fi
+  # rather than upload to S3, just point to Google Drive since I already pay for that :shrug:
+  # I have Google Drive client running locally on my machine, listening to updates on the ~/imessage-backup dir
+  # so I don't need to use gdrive cli to sync
+
+  # log "Syncing to S3: aws s3 --profile imessage-backup sync $ROOT_DIR $S3_BUCKET" 
+  # if aws s3 --profile imessage-backup sync "$ROOT_DIR" "$S3_BUCKET/" ; then
+  #   log "Successfully synced messages to $S3_BUCKET" 
+  # else
+  #   log "Error: Failed to sync messages to S3 bucket" 
+  #   return 1
+  # fi
 
   log "Completed iMessage export and sync" 
 }
-
-
 
 main() {
   log "Starting imessage-backup script"
@@ -57,7 +59,6 @@ main() {
     LAST_BACKUP_DATE=$(cat "$LAST_BACKUP_FILE")
       log "Last run on $LAST_BACKUP_DATE"
   fi
-  
 
   if perform_backup ; then
     # Update the last backup date file
