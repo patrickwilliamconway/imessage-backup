@@ -24,6 +24,9 @@ perform_backup() {
   # Log the start of the backup
   log "Starting iMessage export and sync"
 
+  log "Removing all files in $export_dir so they can be regenerated"
+  rm -rf $export_dir
+
   # Run imessage-exporter
   log "Running exporter tool: imessage-exporter -f txt -o $export_dir -a macOS" 
   if imessage-exporter -f txt -o "$export_dir" -a macOS ; then
