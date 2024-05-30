@@ -36,7 +36,7 @@ perform_backup() {
     return 1
   fi
 
-  log "Syncing to S3: aws s3 --profile imessage-backup sync "$ROOT_DIR" "$S3_BUCKET/"" 
+  log "Syncing to S3: aws s3 --profile imessage-backup sync $ROOT_DIR $S3_BUCKET" 
   if aws s3 --profile imessage-backup sync "$ROOT_DIR" "$S3_BUCKET/" ; then
     log "Successfully synced messages to $S3_BUCKET" 
   else
